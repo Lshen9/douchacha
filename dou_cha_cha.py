@@ -53,7 +53,7 @@ class DouChaCha:
         try:
             resp = self._raw_request(method, endpoint, param, data)
             result = resp.json()
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             log.error(e)
         except ValueError:
             log.error("Path: {}, response: {}".format(path, resp.text[:200]))
@@ -66,7 +66,7 @@ class DouChaCha:
         resp = None
         if method == "GET":
             resp = self.session.get(
-                endpoint, params=data, headers=self.header, timeout=DEFAULT_TIMEOUT
+                endpoint, params=params, headers=self.header, timeout=DEFAULT_TIMEOUT
             )
         elif method == "POST":
             resp = self.session.post(
